@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiência BRF1 - Fornecedor</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form id="meuFormulario" class="mt-5">
+        <div class="form-group">
+          <label for="cnpj">CNPJ:</label>
+          <input type="text" class="form-control" id="cnpj" name="cnpj" />
+        </div>
+        <div class="form-group">
+          <label for="cliente">Cliente:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cliente"
+            name="cliente"
+            readonly
+          />
+        </div>
+        <div class="form-group">
+          <label for="cidade">Cidade:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cidade"
+            name="cidade"
+            readonly
+          />
+        </div>
+        <div class="form-group">
+          <label for="uf">UF:</label>
+          <input type="text" class="form-control" id="uf" name="uf" readonly />
+        </div>
+        <div class="form-group">
+          <label for="valorped">Valor do Pedido:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="valorped"
+            name="valorped"
+          />
+        </div>
+        <div class="form-group">
+          <label for="qtmoedas">Quantidade de Moedas:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="qtmoedas"
+            name="qtmoedas"
+          />
+        </div>
+        <div class="form-group">
+          <label for="fornecedor">Fornecedor:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fornecedor"
+            name="fornecedor"
+          />
+        </div>
+        <div class="form-group">
+          <label for="filial">Filial:</label>
+          <input type="text" class="form-control" id="filial" name="filial" />
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </div>
+    <script type="module" src="/src/fornecedor.js"></script>
+  </body>
+</html>
