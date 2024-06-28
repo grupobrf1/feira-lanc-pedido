@@ -5,4 +5,11 @@ export default defineConfig({
     host: true,
     open: "/index.html", // Abre automaticamente a página de login
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: "./public/index.html", // Caminho correto para o index.html
+      },
+    },
+  },
 });
