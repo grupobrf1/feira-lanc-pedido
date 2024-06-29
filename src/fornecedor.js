@@ -64,6 +64,12 @@ if (!accessToken) {
   window.location.href = "/index";
 }
 
+// Lógica para logout
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("accessToken");
+  window.location.href = "/index";
+});
+
 document.getElementById("cnpj").addEventListener("input", function () {
   this.value = mascaraCNPJ(this.value);
 });
