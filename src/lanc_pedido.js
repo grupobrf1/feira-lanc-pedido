@@ -61,13 +61,13 @@ function ocultarCarregamento() {
 // Verificar se o token está presente e redirecionar para a página de login se não estiver
 const accessToken = localStorage.getItem("accessToken");
 if (!accessToken) {
-  window.location.href = "/index";
+  window.location.href = "/login_vendedor";
 }
 
 // Lógica para logout
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("accessToken");
-  window.location.href = "/index";
+  window.location.href = "/login_vendedor";
 });
 
 document.getElementById("cnpj").addEventListener("input", function () {

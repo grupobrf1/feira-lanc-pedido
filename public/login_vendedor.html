@@ -50,8 +50,6 @@
     <div class="container">
       <form id="loginForm" class="mt-5" autocomplete="off">
         <h2>Entrar</h2>
-
-        <!-- Feedback de Erro -->
         <div
           id="loginErrorAlert"
           class="alert alert-danger d-none"
@@ -59,7 +57,6 @@
         >
           Usuário ou senha inválidos. Por favor, tente novamente.
         </div>
-
         <div class="form-group">
           <label for="username">Usuário:</label>
           <input
@@ -83,13 +80,11 @@
           />
           <span class="fa fa-fw fa-eye field-icon toggle-password"></span>
         </div>
-
         <button type="submit" class="btn btn-primary">Entrar</button>
       </form>
     </div>
-
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1317.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-    <script src="/src/main.js"></script>
+    <script src="/src/login_vendedor.js"></script>
   </body>
 </html>

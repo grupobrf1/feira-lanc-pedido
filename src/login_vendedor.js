@@ -60,7 +60,7 @@ form.addEventListener("submit", async (event) => {
       const accessToken = authResponse.AuthenticationResult.AccessToken;
       localStorage.setItem("accessToken", accessToken); // Armazenar no localStorage
 
-      window.location.href = "/fornecedor";
+      window.location.href = "/lanc_pedido";
     } else {
       throw new Error("Autenticação falhou. Verifique suas credenciais.");
     }
