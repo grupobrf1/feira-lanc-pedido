@@ -28,14 +28,14 @@
       // Verificar se o token está presente e redirecionar para a página de login se não estiver
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
-        window.location.href = "/index";
+        window.location.href = "/login_vendedor";
       }
     </script>
   </head>
   <body>
     <div class="container">
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <h2>Lançar Pedido</h2>
+        <h2 id="tituloBemVindo">Bem-vindo</h2>
         <button id="logoutBtn" class="btn btn-danger">
           <i class="fas fa-sign-out-alt"></i> Sair
         </button>

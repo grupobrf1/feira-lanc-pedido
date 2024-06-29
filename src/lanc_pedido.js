@@ -65,9 +65,18 @@ if (!accessToken) {
   window.location.href = "/login_vendedor";
 }
 
+// Recuperar o nome do usuário e atualizar o título
+const userName = localStorage.getItem("userName");
+if (userName) {
+  document.getElementById(
+    "tituloBemVindo"
+  ).textContent = `Bem-vindo, ${userName}`;
+}
+
 // Lógica para logout
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("accessToken");
+  localStorage.removeItem("userName");
   window.location.href = "/login_vendedor";
 });
 

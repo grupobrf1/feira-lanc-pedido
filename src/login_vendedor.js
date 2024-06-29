@@ -59,6 +59,7 @@ form.addEventListener("submit", async (event) => {
     if (authResponse.AuthenticationResult) {
       const accessToken = authResponse.AuthenticationResult.AccessToken;
       localStorage.setItem("accessToken", accessToken); // Armazenar no localStorage
+      localStorage.setItem("userName", username); // Armazenar nome do usuário no localStorage
 
       window.location.href = "/lanc_pedido";
     } else {
