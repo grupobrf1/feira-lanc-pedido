@@ -12,38 +12,33 @@ const form = document.querySelector("#loginForm");
 const usernameField = document.getElementById("username");
 const passwordField = document.getElementById("password");
 const togglePassword = document.querySelector(".toggle-password");
-const userErrorAlert = document.getElementById("userErrorAlert");
-const passwordErrorAlert = document.getElementById("passwordErrorAlert");
 const loginErrorAlert = document.getElementById("loginErrorAlert");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   // Resetar alertas e classes de erro
-  userErrorAlert.classList.add("d-none");
-  passwordErrorAlert.classList.add("d-none");
   loginErrorAlert.classList.add("d-none");
-  usernameField.classList.remove("is-invalid");
-  passwordField.classList.remove("is-invalid");
+  if (usernameField) usernameField.classList.remove("is-invalid");
+  if (passwordField) passwordField.classList.remove("is-invalid");
 
-  const username = usernameField.value;
-  const password = passwordField.value;
+  const username = usernameField ? usernameField.value : "";
+  const password = passwordField ? passwordField.value : "";
 
   let isValid = true;
 
   if (!username) {
-    userErrorAlert.classList.remove("d-none");
-    usernameField.classList.add("is-invalid");
     isValid = false;
   }
 
   if (!password) {
-    passwordErrorAlert.classList.remove("d-none");
-    passwordField.classList.add("is-invalid");
     isValid = false;
   }
 
   if (!isValid) {
+    loginErrorAlert.classList.remove("d-none");
+    if (usernameField) usernameField.classList.add("is-invalid");
+    if (passwordField) passwordField.classList.add("is-invalid");
     return;
   }
 
@@ -72,37 +67,36 @@ form.addEventListener("submit", async (event) => {
   } catch (err) {
     // Mostrar o alerta de erro de login
     loginErrorAlert.classList.remove("d-none");
-
-    // Mostrar o modal de erro
-    const errorModal = new bootstrap.Modal(
-      document.getElementById("errorModal")
-    );
-    errorModal.show();
-
-    console.log(err.message);
+    if (usernameField) usernameField.classList.add("is-invalid");
+    if (passwordField) passwordField.classList.add("is-invalid");
   }
 });
 
 // Alternar visibilidade da senha
-togglePassword.addEventListener("click", function () {
-  const input = passwordField;
-  const type = input.getAttribute("type") === "password" ? "text" : "password";
-  input.setAttribute("type", type);
-  this.classList.toggle("fa-eye-slash");
-});
+if (togglePassword) {
+  togglePassword.addEventListener("click", function () {
+    const input = passwordField;
+    const type =
+      input.getAttribute("type") === "password" ? "text" : "password";
+    input.setAttribute("type", type);
+    this.classList.toggle("fa-eye-slash");
+  });
+}
 
 // Mostrar o ícone de olho quando o usuário começar a digitar a senha
-passwordField.addEventListener("input", () => {
+if (passwordField) {
+  passwordField.addEventListener("input", () => {
+    if (passwordField.value.length > 0) {
+      togglePassword.style.display = "block";
+    } else {
+      togglePassword.style.display = "none";
+    }
+  });
+
+  // Garantir que o ícone esteja visível ao carregar a página, se houver valor no campo de senha
   if (passwordField.value.length > 0) {
     togglePassword.style.display = "block";
   } else {
     togglePassword.style.display = "none";
   }
-});
-
-// Garantir que o ícone esteja visível ao carregar a página, se houver valor no campo de senha
-if (passwordField.value.length > 0) {
-  togglePassword.style.display = "block";
-} else {
-  togglePassword.style.display = "none";
 }

@@ -25,6 +25,25 @@
       .position-relative {
         position: relative;
       }
+      .is-invalid {
+        border-color: red;
+        animation: shake 0.5s;
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-4px);
+        }
+        50% {
+          transform: translateX(4px);
+        }
+        75% {
+          transform: translateX(-4px);
+        }
+      }
     </style>
   </head>
   <body>
@@ -33,22 +52,12 @@
         <h2>Entrar</h2>
 
         <!-- Feedback de Erro -->
-        <div id="userErrorAlert" class="alert alert-danger d-none" role="alert">
-          Usuário é obrigatório.
-        </div>
-        <div
-          id="passwordErrorAlert"
-          class="alert alert-danger d-none"
-          role="alert"
-        >
-          Senha é obrigatória.
-        </div>
         <div
           id="loginErrorAlert"
           class="alert alert-danger d-none"
           role="alert"
         >
-          Erro ao entrar. Verifique suas credenciais.
+          Usuário ou senha inválidos. Por favor, tente novamente.
         </div>
 
         <div class="form-group">
@@ -77,41 +86,6 @@
 
         <button type="submit" class="btn btn-primary">Entrar</button>
       </form>
-    </div>
-
-    <!-- Modal de Feedback de Erro -->
-    <div
-      class="modal fade"
-      id="errorModal"
-      tabindex="-1"
-      aria-labelledby="errorModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="errorModalLabel">Erro ao Entrar</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            Verifique suas credenciais e tente novamente.
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Fechar
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1317.0.min.js"></script>
