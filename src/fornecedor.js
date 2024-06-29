@@ -64,6 +64,12 @@ document.getElementById("cnpj").addEventListener("input", function () {
 
 document.getElementById("cnpj").addEventListener("blur", function () {
   const cnpjSemMascara = removerMascaraCNPJ(this.value);
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken) {
+    console.error("Token de acesso não encontrado.");
+    return;
+  }
 
   if (cnpjSemMascara.length === 14) {
     mostrarCarregamento();
@@ -75,7 +81,12 @@ document.getElementById("cnpj").addEventListener("blur", function () {
         },
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Não autorizado");
+        }
+        return response.json();
+      })
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           const resultado = data[0];
@@ -85,6 +96,10 @@ document.getElementById("cnpj").addEventListener("blur", function () {
         } else {
           ocultarCarregamento();
         }
+        // Habilitar os campos preenchidos
+        document.getElementById("cliente").readOnly = false;
+        document.getElementById("cidade").readOnly = false;
+        document.getElementById("uf").readOnly = false;
       })
       .catch((error) => {
         console.error("Erro ao buscar dados:", error);
@@ -104,6 +119,12 @@ document
   .getElementById("meuFormulario")
   .addEventListener("submit", function (event) {
     event.preventDefault();
+
+    // Resetar alertas e classes de erro
+    document.getElementById("pedidoErrorAlert").classList.add("d-none");
+    document.querySelectorAll(".form-control").forEach((input) => {
+      input.classList.remove("is-invalid");
+    });
 
     const formData = new FormData(this);
 
@@ -133,6 +154,27 @@ document
     const dadosFormulario = {};
     for (const [key, value] of formData.entries()) {
       dadosFormulario[key] = value;
+    }
+
+    // Validação dos campos obrigatórios
+    let isValid = true;
+    document.querySelectorAll("[required]").forEach((input) => {
+      if (!input.value) {
+        input.classList.add("is-invalid");
+        isValid = false;
+      }
+    });
+
+    if (!isValid) {
+      document.getElementById("pedidoErrorAlert").classList.remove("d-none");
+      return;
+    }
+
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      console.error("Token de acesso não encontrado.");
+      return;
     }
 
     // Desabilitar o botão de enviar para evitar múltiplos envios

@@ -9,14 +9,43 @@ const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider({
 });
 
 const form = document.querySelector("form");
+const usernameField = document.getElementById("username");
 const passwordField = document.getElementById("password");
 const togglePassword = document.getElementById("togglePassword");
+const userErrorAlert = document.getElementById("userErrorAlert");
+const passwordErrorAlert = document.getElementById("passwordErrorAlert");
+const loginErrorAlert = document.getElementById("loginErrorAlert");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const username = form.username.value;
-  const password = form.password.value;
+  // Resetar alertas e classes de erro
+  userErrorAlert.classList.add("d-none");
+  passwordErrorAlert.classList.add("d-none");
+  loginErrorAlert.classList.add("d-none");
+  usernameField.classList.remove("is-invalid");
+  passwordField.classList.remove("is-invalid");
+
+  const username = usernameField.value;
+  const password = passwordField.value;
+
+  let isValid = true;
+
+  if (!username) {
+    userErrorAlert.classList.remove("d-none");
+    usernameField.classList.add("is-invalid");
+    isValid = false;
+  }
+
+  if (!password) {
+    passwordErrorAlert.classList.remove("d-none");
+    passwordField.classList.add("is-invalid");
+    isValid = false;
+  }
+
+  if (!isValid) {
+    return;
+  }
 
   const params = {
     AuthFlow: "USER_PASSWORD_AUTH",
@@ -34,15 +63,15 @@ form.addEventListener("submit", async (event) => {
 
     if (authResponse.AuthenticationResult) {
       const accessToken = authResponse.AuthenticationResult.AccessToken;
-      sessionStorage.setItem("accessToken", accessToken); // Utilizar sessionStorage
+      localStorage.setItem("accessToken", accessToken); // Armazenar no localStorage
 
       window.location.href = "/fornecedor.html";
     } else {
       throw new Error("Autenticação falhou. Verifique suas credenciais.");
     }
   } catch (err) {
-    // Mostrar o alerta de erro
-    document.getElementById("loginErrorAlert").classList.remove("d-none");
+    // Mostrar o alerta de erro de login
+    loginErrorAlert.classList.remove("d-none");
 
     // Mostrar o modal de erro
     const errorModal = new bootstrap.Modal(

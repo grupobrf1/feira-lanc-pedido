@@ -13,7 +13,7 @@
   </head>
   <body>
     <div class="container">
-      <form id="meuFormulario" class="mt-5">
+      <form id="meuFormulario" class="mt-5" autocomplete="off">
         <h2>Lançar Pedido</h2>
 
         <!-- Feedback de Erro -->
@@ -27,7 +27,15 @@
 
         <div class="form-group">
           <label for="cnpj">CNPJ:</label>
-          <input type="text" class="form-control" id="cnpj" name="cnpj" />
+          <input
+            type="text"
+            class="form-control"
+            id="cnpj"
+            name="cnpj"
+            required
+            autocomplete="off"
+          />
+          <div class="invalid-feedback">Preencha o campo CNPJ.</div>
         </div>
         <div class="form-group">
           <label for="cliente">Cliente:</label>
@@ -60,7 +68,10 @@
             class="form-control"
             id="valorped"
             name="valorped"
+            required
+            autocomplete="off"
           />
+          <div class="invalid-feedback">Preencha o campo Valor do Pedido.</div>
         </div>
         <div class="form-group">
           <label for="qtmoedas">Quantidade de Moedas:</label>
@@ -69,7 +80,12 @@
             class="form-control"
             id="qtmoedas"
             name="qtmoedas"
+            required
+            autocomplete="off"
           />
+          <div class="invalid-feedback">
+            Preencha o campo Quantidade de Moedas.
+          </div>
         </div>
         <div class="form-group">
           <label for="fornecedor">Fornecedor:</label>
@@ -78,11 +94,22 @@
             class="form-control"
             id="fornecedor"
             name="fornecedor"
+            required
+            autocomplete="off"
           />
+          <div class="invalid-feedback">Preencha o campo Fornecedor.</div>
         </div>
         <div class="form-group">
           <label for="filial">Filial:</label>
-          <input type="text" class="form-control" id="filial" name="filial" />
+          <input
+            type="text"
+            class="form-control"
+            id="filial"
+            name="filial"
+            required
+            autocomplete="off"
+          />
+          <div class="invalid-feedback">Preencha o campo Filial.</div>
         </div>
         <button type="submit" class="btn btn-primary">Enviar</button>
       </form>
