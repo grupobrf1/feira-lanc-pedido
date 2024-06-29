@@ -20,6 +20,13 @@
         justify-content: space-between;
       }
     </style>
+    <script>
+      // Verificar se o token está presente e redirecionar para a página de login se não estiver
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        window.location.href = "/index.html";
+      }
+    </script>
   </head>
   <body>
     <div class="container">

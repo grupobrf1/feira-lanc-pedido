@@ -58,18 +58,18 @@ function ocultarCarregamento() {
   uf.classList.remove("loading");
 }
 
+// Verificar se o token está presente e redirecionar para a página de login se não estiver
+const accessToken = localStorage.getItem("accessToken");
+if (!accessToken) {
+  window.location.href = "/index.html";
+}
+
 document.getElementById("cnpj").addEventListener("input", function () {
   this.value = mascaraCNPJ(this.value);
 });
 
 document.getElementById("cnpj").addEventListener("blur", function () {
   const cnpjSemMascara = removerMascaraCNPJ(this.value);
-  const accessToken = localStorage.getItem("accessToken");
-
-  if (!accessToken) {
-    console.error("Token de acesso não encontrado.");
-    return;
-  }
 
   if (cnpjSemMascara.length === 14) {
     mostrarCarregamento();
@@ -186,14 +186,6 @@ document
         dadosFormulario[key] = value;
       }
 
-      const accessToken = localStorage.getItem("accessToken");
-
-      if (!accessToken) {
-        console.error("Token de acesso não encontrado.");
-        isSubmitting = false;
-        return;
-      }
-
       fetch("https://api-feira.azurewebsites.net/lancarpedido", {
         method: "POST",
         headers: {
@@ -253,10 +245,4 @@ function mostrarAlertaSucesso(mensagem) {
   const alertElement = document.getElementById("pedidoSuccessAlert");
   alertElement.textContent = mensagem;
   alertElement.classList.remove("d-none");
-}
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
 }
