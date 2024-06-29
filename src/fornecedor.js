@@ -1,4 +1,4 @@
-const accessToken = getCookie("accessToken");
+let isSubmitting = false; // Variável para evitar reenvios múltiplos
 
 // Função para adicionar máscara de CNPJ
 function mascaraCNPJ(value) {
@@ -103,6 +103,7 @@ document.getElementById("cnpj").addEventListener("blur", function () {
       })
       .catch((error) => {
         console.error("Erro ao buscar dados:", error);
+        mostrarAlertaErro("Erro ao buscar dados. Por favor, tente novamente.");
         ocultarCarregamento();
       });
   } else {
@@ -120,8 +121,14 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
 
+    if (isSubmitting) {
+      return; // Evitar reenvio se já estiver enviando
+    }
+    isSubmitting = true;
+
     // Resetar alertas e classes de erro
     document.getElementById("pedidoErrorAlert").classList.add("d-none");
+    document.getElementById("pedidoSuccessAlert").classList.add("d-none");
     document.querySelectorAll(".form-control").forEach((input) => {
       input.classList.remove("is-invalid");
     });
@@ -134,7 +141,10 @@ document
       document.getElementById("cidade").value === "Carregando..." ||
       document.getElementById("uf").value === "Carregando..."
     ) {
-      alert("Aguarde o carregamento dos dados antes de enviar o formulário.");
+      mostrarAlertaErro(
+        "Aguarde o carregamento dos dados antes de enviar o formulário."
+      );
+      isSubmitting = false;
       return;
     }
 
@@ -145,86 +155,105 @@ document
     formData.set("cnpj", cnpjSemMascara);
     formData.set("valorped", valorSemFormatacao);
 
-    // Logs para depuração
-    console.log("FormData antes de enviar:");
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    // Exibir modal de confirmação com os dados preenchidos
+    document.getElementById("confirmaCnpj").textContent = formData.get("cnpj");
+    document.getElementById("confirmaCliente").textContent =
+      document.getElementById("cliente").value;
+    document.getElementById("confirmaCidade").textContent =
+      document.getElementById("cidade").value;
+    document.getElementById("confirmaUf").textContent =
+      document.getElementById("uf").value;
+    document.getElementById("confirmaValorPedido").textContent =
+      formData.get("valorped");
+    document.getElementById("confirmaQtMoedas").textContent =
+      formData.get("qtmoedas");
+    document.getElementById("confirmaFornecedor").textContent =
+      formData.get("fornecedor");
+    document.getElementById("confirmaFilial").textContent =
+      formData.get("filial");
 
-    const dadosFormulario = {};
-    for (const [key, value] of formData.entries()) {
-      dadosFormulario[key] = value;
-    }
+    const confirmacaoModal = new bootstrap.Modal(
+      document.getElementById("confirmacaoModal")
+    );
+    confirmacaoModal.show();
 
-    // Validação dos campos obrigatórios
-    let isValid = true;
-    document.querySelectorAll("[required]").forEach((input) => {
-      if (!input.value) {
-        input.classList.add("is-invalid");
-        isValid = false;
+    // Adicionar evento ao botão de confirmar no modal
+    document.getElementById("confirmarPedidoBtn").onclick = function () {
+      confirmacaoModal.hide();
+
+      const dadosFormulario = {};
+      for (const [key, value] of formData.entries()) {
+        dadosFormulario[key] = value;
       }
-    });
 
-    if (!isValid) {
-      document.getElementById("pedidoErrorAlert").classList.remove("d-none");
-      return;
-    }
+      const accessToken = localStorage.getItem("accessToken");
 
-    const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("Token de acesso não encontrado.");
+        isSubmitting = false;
+        return;
+      }
 
-    if (!accessToken) {
-      console.error("Token de acesso não encontrado.");
-      return;
-    }
-
-    // Desabilitar o botão de enviar para evitar múltiplos envios
-    const submitButton = document.querySelector("button[type='submit']");
-    submitButton.disabled = true;
-
-    fetch("https://api-feira.azurewebsites.net/lancarpedido", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(dadosFormulario),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro na resposta da API");
-        }
-        return response.json();
+      fetch("https://api-feira.azurewebsites.net/lancarpedido", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(dadosFormulario),
       })
-      .then((data) => {
-        console.log("Resposta da API:", data);
-        if (data.detail) {
-          alert(data.detail);
-        } else if (data.mensagem) {
-          alert(data.mensagem);
-        } else {
-          alert('Resposta da API não contém a chave "detail".');
-        }
-        // Limpar os campos do formulário
-        document.getElementById("meuFormulario").reset();
-        // Habilitar o botão de enviar
-        submitButton.disabled = false;
-      })
-      .catch((error) => {
-        console.error("Erro ao enviar dados:", error);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Erro na resposta da API");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Resposta da API:", data);
+          if (data.detail) {
+            mostrarAlertaErro(data.detail);
+          } else if (data.mensagem) {
+            mostrarAlertaSucesso(data.mensagem);
+          } else {
+            mostrarAlertaSucesso("Pedido lançado com sucesso!");
+          }
+          // Limpar os campos do formulário
+          document.getElementById("meuFormulario").reset();
+          isSubmitting = false;
+        })
+        .catch((error) => {
+          console.error("Erro ao enviar dados:", error);
+          mostrarAlertaErro(
+            "Erro ao enviar dados. Por favor, tente novamente."
+          );
 
-        // Mostrar o alerta de erro
-        document.getElementById("pedidoErrorAlert").classList.remove("d-none");
+          // Mostrar o modal de erro
+          const errorModal = new bootstrap.Modal(
+            document.getElementById("pedidoErrorModal")
+          );
+          errorModal.show();
 
-        // Mostrar o modal de erro
-        const errorModal = new bootstrap.Modal(
-          document.getElementById("pedidoErrorModal")
-        );
-        errorModal.show();
+          isSubmitting = false;
+        });
+    };
 
-        // Habilitar o botão de enviar em caso de erro
-        submitButton.disabled = false;
-      });
+    // Adicionar evento ao botão de cancelar no modal
+    document.getElementById("cancelarPedidoBtn").onclick = function () {
+      isSubmitting = false;
+    };
   });
+
+function mostrarAlertaErro(mensagem) {
+  const alertElement = document.getElementById("pedidoErrorAlert");
+  alertElement.textContent = mensagem;
+  alertElement.classList.remove("d-none");
+}
+
+function mostrarAlertaSucesso(mensagem) {
+  const alertElement = document.getElementById("pedidoSuccessAlert");
+  alertElement.textContent = mensagem;
+  alertElement.classList.remove("d-none");
+}
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
