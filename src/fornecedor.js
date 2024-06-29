@@ -61,7 +61,7 @@ function ocultarCarregamento() {
 // Verificar se o token está presente e redirecionar para a página de login se não estiver
 const accessToken = localStorage.getItem("accessToken");
 if (!accessToken) {
-  window.location.href = "/index.html";
+  window.location.href = "/index";
 }
 
 document.getElementById("cnpj").addEventListener("input", function () {
