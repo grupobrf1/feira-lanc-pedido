@@ -8,10 +8,10 @@ const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider({
   apiVersion: "2016-04-18",
 });
 
-const form = document.querySelector("form");
+const form = document.querySelector("#loginForm");
 const usernameField = document.getElementById("username");
 const passwordField = document.getElementById("password");
-const togglePassword = document.getElementById("togglePassword");
+const togglePassword = document.querySelector(".toggle-password");
 const userErrorAlert = document.getElementById("userErrorAlert");
 const passwordErrorAlert = document.getElementById("passwordErrorAlert");
 const loginErrorAlert = document.getElementById("loginErrorAlert");
@@ -84,14 +84,11 @@ form.addEventListener("submit", async (event) => {
 });
 
 // Alternar visibilidade da senha
-togglePassword.addEventListener("click", () => {
-  const type =
-    passwordField.getAttribute("type") === "password" ? "text" : "password";
-  passwordField.setAttribute("type", type);
-
-  // Alternar o ícone
-  togglePassword.classList.toggle("fa-eye");
-  togglePassword.classList.toggle("fa-eye-slash");
+togglePassword.addEventListener("click", function () {
+  const input = passwordField;
+  const type = input.getAttribute("type") === "password" ? "text" : "password";
+  input.setAttribute("type", type);
+  this.classList.toggle("fa-eye-slash");
 });
 
 // Mostrar o ícone de olho quando o usuário começar a digitar a senha
@@ -102,3 +99,10 @@ passwordField.addEventListener("input", () => {
     togglePassword.style.display = "none";
   }
 });
+
+// Garantir que o ícone esteja visível ao carregar a página, se houver valor no campo de senha
+if (passwordField.value.length > 0) {
+  togglePassword.style.display = "block";
+} else {
+  togglePassword.style.display = "none";
+}
