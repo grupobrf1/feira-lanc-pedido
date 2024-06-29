@@ -17,15 +17,16 @@ function removerMascaraCNPJ(value) {
 
 // Função para formatar valor como moeda real
 function formatarMoeda(value) {
-  return value
-    .replace(/\D/g, "")
-    .replace(/(\d)(\d{2})$/, "$1,$2")
-    .replace(/(?=(\d{3})+(\D))\B/g, ".");
+  value = value.replace(/\D/g, "");
+  value = (value / 100).toFixed(2) + "";
+  value = value.replace(".", ",");
+  value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  return value;
 }
 
 // Função para remover formatação de moeda
 function removerFormatacaoMoeda(value) {
-  return value.replace(/\D/g, "");
+  return value.replace(/[^\d,]/g, "").replace(",", ".");
 }
 
 // Função para mostrar animação de carregamento
@@ -118,8 +119,7 @@ document.getElementById("cnpj").addEventListener("blur", function () {
 });
 
 document.getElementById("valorped").addEventListener("input", function () {
-  const valor = formatarMoeda(this.value);
-  this.value = valor;
+  this.value = formatarMoeda(this.value);
 });
 
 document
@@ -162,15 +162,18 @@ document
     formData.set("valorped", valorSemFormatacao);
 
     // Exibir modal de confirmação com os dados preenchidos
-    document.getElementById("confirmaCnpj").textContent = formData.get("cnpj");
+    document.getElementById("confirmaCnpj").textContent = mascaraCNPJ(
+      formData.get("cnpj")
+    );
     document.getElementById("confirmaCliente").textContent =
       document.getElementById("cliente").value;
     document.getElementById("confirmaCidade").textContent =
       document.getElementById("cidade").value;
     document.getElementById("confirmaUf").textContent =
       document.getElementById("uf").value;
-    document.getElementById("confirmaValorPedido").textContent =
-      formData.get("valorped");
+    document.getElementById("confirmaValorPedido").textContent = formatarMoeda(
+      formData.get("valorped")
+    );
     document.getElementById("confirmaQtMoedas").textContent =
       formData.get("qtmoedas");
     document.getElementById("confirmaFornecedor").textContent =
