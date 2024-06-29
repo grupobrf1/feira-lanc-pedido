@@ -7,7 +7,8 @@ function mascaraCNPJ(value) {
     .replace(/^(\d{2})(\d)/, "$1.$2")
     .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
     .replace(/\.(\d{3})(\d)/, ".$1/$2")
-    .replace(/(\d{4})(\d)/, "$1-$2");
+    .replace(/(\d{4})(\d)/, "$1-$2")
+    .slice(0, 18); // Limitar a 18 caracteres incluindo a máscara
 }
 
 // Função para remover máscara de CNPJ
@@ -35,13 +36,15 @@ function mostrarCarregamento() {
   const cidade = document.getElementById("cidade");
   const uf = document.getElementById("uf");
 
-  cliente.value = "Carregando...";
-  cidade.value = "Carregando...";
-  uf.value = "Carregando...";
+  if (cliente && cidade && uf) {
+    cliente.value = "Carregando...";
+    cidade.value = "Carregando...";
+    uf.value = "Carregando...";
 
-  cliente.classList.add("loading");
-  cidade.classList.add("loading");
-  uf.classList.add("loading");
+    cliente.classList.add("loading");
+    cidade.classList.add("loading");
+    uf.classList.add("loading");
+  }
 }
 
 // Função para ocultar animação de carregamento
@@ -50,13 +53,15 @@ function ocultarCarregamento() {
   const cidade = document.getElementById("cidade");
   const uf = document.getElementById("uf");
 
-  cliente.value = "";
-  cidade.value = "";
-  uf.value = "";
+  if (cliente && cidade && uf) {
+    cliente.value = "";
+    cidade.value = "";
+    uf.value = "";
 
-  cliente.classList.remove("loading");
-  cidade.classList.remove("loading");
-  uf.classList.remove("loading");
+    cliente.classList.remove("loading");
+    cidade.classList.remove("loading");
+    uf.classList.remove("loading");
+  }
 }
 
 // Verificar se o token está presente e redirecionar para a página de login se não estiver
@@ -82,6 +87,17 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 
 document.getElementById("cnpj").addEventListener("input", function () {
   this.value = mascaraCNPJ(this.value);
+  const cnpjSemMascara = removerMascaraCNPJ(this.value);
+
+  if (cnpjSemMascara.length !== 14) {
+    // Limpar os campos se o CNPJ não tiver 14 dígitos
+    document.getElementById("cliente").value = "";
+    document.getElementById("cidade").value = "";
+    document.getElementById("uf").value = "";
+    document.getElementById("cliente").readOnly = true;
+    document.getElementById("cidade").readOnly = true;
+    document.getElementById("uf").readOnly = true;
+  }
 });
 
 document.getElementById("cnpj").addEventListener("blur", function () {
@@ -104,22 +120,27 @@ document.getElementById("cnpj").addEventListener("blur", function () {
         return response.json();
       })
       .then((data) => {
+        ocultarCarregamento();
         if (Array.isArray(data) && data.length > 0) {
           const resultado = data[0];
           document.getElementById("cliente").value = resultado.cliente || "";
           document.getElementById("cidade").value = resultado.cidade || "";
           document.getElementById("uf").value = resultado.uf || "";
+          const cnpjErrorAlert = document.getElementById("cnpjErrorAlert");
+          if (cnpjErrorAlert) {
+            cnpjErrorAlert.classList.add("d-none");
+          }
         } else {
-          ocultarCarregamento();
+          mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
         }
         // Habilitar os campos preenchidos
-        document.getElementById("cliente").readOnly = false;
-        document.getElementById("cidade").readOnly = false;
-        document.getElementById("uf").readOnly = false;
+        document.getElementById("cliente").readOnly = true;
+        document.getElementById("cidade").readOnly = true;
+        document.getElementById("uf").readOnly = true;
       })
       .catch((error) => {
         console.error("Erro ao buscar dados:", error);
-        mostrarAlertaErro("Erro ao buscar dados. Por favor, tente novamente.");
+        mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
         ocultarCarregamento();
       });
   } else {
@@ -255,12 +276,19 @@ document
 
 function mostrarAlertaErro(mensagem) {
   const alertElement = document.getElementById("pedidoErrorAlert");
-  alertElement.textContent = mensagem;
-  alertElement.classList.remove("d-none");
+  if (alertElement) {
+    alertElement.textContent = mensagem;
+    alertElement.classList.remove("d-none");
+    setTimeout(() => {
+      alertElement.classList.add("d-none");
+    }, 3000); // Ocultar o alerta após 3 segundos
+  }
 }
 
 function mostrarAlertaSucesso(mensagem) {
   const alertElement = document.getElementById("pedidoSuccessAlert");
-  alertElement.textContent = mensagem;
-  alertElement.classList.remove("d-none");
+  if (alertElement) {
+    alertElement.textContent = mensagem;
+    alertElement.classList.remove("d-none");
+  }
 }
