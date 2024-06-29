@@ -150,7 +150,45 @@ document.getElementById("cnpj").addEventListener("blur", function () {
 
 document.getElementById("valorped").addEventListener("input", function () {
   this.value = formatarMoeda(this.value);
+  validarQtMoedas(); // Revalidar qtmoedas ao alterar valorped
 });
+
+document.getElementById("qtmoedas").addEventListener("input", function () {
+  validarQtMoedas();
+});
+
+function validarQtMoedas() {
+  const valorpedInput = document.getElementById("valorped");
+  const qtmoedasInput = document.getElementById("qtmoedas");
+  const qtmoedasError = document.getElementById("qtmoedasError");
+  const submitButton = document.querySelector('button[type="submit"]');
+
+  const valorped = parseFloat(
+    removerFormatacaoMoeda(valorpedInput.value).replace(",", ".")
+  );
+  const qtmoedas = parseFloat(qtmoedasInput.value);
+
+  if (!isNaN(valorped) && !isNaN(qtmoedas)) {
+    const maxMoedas = Math.floor(valorped * 0.15);
+
+    if (qtmoedas > maxMoedas) {
+      qtmoedasInput.classList.add("is-invalid");
+      qtmoedasError.classList.remove("d-none");
+      qtmoedasError.textContent = `Quantidade de moedas não pode ser maior que 15% do valor do pedido. Máximo permitido: ${maxMoedas}`;
+      qtmoedasInput.classList.add("shake");
+      setTimeout(() => {
+        qtmoedasInput.classList.remove("shake");
+      }, 500);
+      submitButton.disabled = true;
+    } else {
+      qtmoedasInput.classList.remove("is-invalid");
+      qtmoedasError.classList.add("d-none");
+      submitButton.disabled = false;
+    }
+  } else {
+    submitButton.disabled = false;
+  }
+}
 
 document
   .getElementById("meuFormulario")
@@ -160,6 +198,29 @@ document
     if (isSubmitting) {
       return; // Evitar reenvio se já estiver enviando
     }
+
+    // Verificar se qtmoedas é maior que 15% do valorped antes de permitir o envio
+    const valorpedInput = document.getElementById("valorped");
+    const qtmoedasInput = document.getElementById("qtmoedas");
+    const valorped = parseFloat(
+      removerFormatacaoMoeda(valorpedInput.value).replace(",", ".")
+    );
+    const qtmoedas = parseFloat(qtmoedasInput.value);
+    const maxMoedas = Math.floor(valorped * 0.15);
+
+    if (qtmoedas > maxMoedas) {
+      qtmoedasInput.classList.add("is-invalid");
+      document.getElementById("qtmoedasError").classList.remove("d-none");
+      document.getElementById(
+        "qtmoedasError"
+      ).textContent = `Quantidade de moedas não pode ser maior que 15% do valor do pedido. Máximo permitido: ${maxMoedas}`;
+      qtmoedasInput.classList.add("shake");
+      setTimeout(() => {
+        qtmoedasInput.classList.remove("shake");
+      }, 500);
+      return;
+    }
+
     isSubmitting = true;
 
     // Resetar alertas e classes de erro
