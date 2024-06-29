@@ -169,7 +169,16 @@ document
       })
       .catch((error) => {
         console.error("Erro ao enviar dados:", error);
-        alert("Erro ao enviar dados: " + error.message);
+
+        // Mostrar o alerta de erro
+        document.getElementById("pedidoErrorAlert").classList.remove("d-none");
+
+        // Mostrar o modal de erro
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("pedidoErrorModal")
+        );
+        errorModal.show();
+
         // Habilitar o botão de enviar em caso de erro
         submitButton.disabled = false;
       });

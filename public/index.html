@@ -9,12 +9,36 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      .field-icon {
+        float: right;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: relative;
+        z-index: 2;
+        display: none; /* Ícone de olho inicialmente oculto */
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <form id="loginForm" class="mt-5">
+      <form id="loginForm" class="mt-5" autocomplete="off">
         <h2>Entrar</h2>
+
+        <!-- Feedback de Erro -->
+        <div
+          id="loginErrorAlert"
+          class="alert alert-danger d-none"
+          role="alert"
+        >
+          Erro ao entrar. Verifique suas credenciais.
+        </div>
+
         <div class="form-group">
           <label for="username">Usuário:</label>
           <input
@@ -23,9 +47,10 @@
             id="username"
             name="username"
             required
+            autocomplete="new-username"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group position-relative">
           <label for="password">Senha:</label>
           <input
             type="password"
@@ -33,12 +58,56 @@
             id="password"
             name="password"
             required
+            autocomplete="new-password"
           />
+          <i
+            class="far fa-eye field-icon"
+            id="togglePassword"
+            style="cursor: pointer"
+          ></i>
         </div>
+
         <button type="submit" class="btn btn-primary">Entrar</button>
       </form>
     </div>
+
+    <!-- Modal de Feedback de Erro -->
+    <div
+      class="modal fade"
+      id="errorModal"
+      tabindex="-1"
+      aria-labelledby="errorModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="errorModalLabel">Erro ao Entrar</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Verifique suas credenciais e tente novamente.
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1317.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

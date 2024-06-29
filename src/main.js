@@ -9,6 +9,8 @@ const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider({
 });
 
 const form = document.querySelector("form");
+const passwordField = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -32,13 +34,42 @@ form.addEventListener("submit", async (event) => {
 
     if (authResponse.AuthenticationResult) {
       const accessToken = authResponse.AuthenticationResult.AccessToken;
-      document.cookie = `accessToken=${accessToken}; path=/;`;
+      sessionStorage.setItem("accessToken", accessToken); // Utilizar sessionStorage
+
       window.location.href = "/fornecedor.html";
     } else {
       throw new Error("Autenticação falhou. Verifique suas credenciais.");
     }
   } catch (err) {
-    alert(err.message || JSON.stringify(err));
+    // Mostrar o alerta de erro
+    document.getElementById("loginErrorAlert").classList.remove("d-none");
+
+    // Mostrar o modal de erro
+    const errorModal = new bootstrap.Modal(
+      document.getElementById("errorModal")
+    );
+    errorModal.show();
+
     console.log(err.message);
+  }
+});
+
+// Alternar visibilidade da senha
+togglePassword.addEventListener("click", () => {
+  const type =
+    passwordField.getAttribute("type") === "password" ? "text" : "password";
+  passwordField.setAttribute("type", type);
+
+  // Alternar o ícone
+  togglePassword.classList.toggle("fa-eye");
+  togglePassword.classList.toggle("fa-eye-slash");
+});
+
+// Mostrar o ícone de olho quando o usuário começar a digitar a senha
+passwordField.addEventListener("input", () => {
+  if (passwordField.value.length > 0) {
+    togglePassword.style.display = "block";
+  } else {
+    togglePassword.style.display = "none";
   }
 });
