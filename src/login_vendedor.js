@@ -11,7 +11,6 @@ const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider({
 const form = document.querySelector("#loginForm");
 const usernameField = document.getElementById("username");
 const passwordField = document.getElementById("password");
-const togglePassword = document.getElementById("togglePasswordIcon");
 const loginErrorAlert = document.getElementById("loginErrorAlert");
 
 form.addEventListener("submit", async (event) => {
@@ -72,29 +71,3 @@ form.addEventListener("submit", async (event) => {
     if (passwordField) passwordField.classList.add("is-invalid");
   }
 });
-
-// Alternar visibilidade da senha
-if (togglePassword) {
-  togglePassword.addEventListener("click", function () {
-    const input = passwordField;
-    const type =
-      input.getAttribute("type") === "password" ? "text" : "password";
-    input.setAttribute("type", type);
-
-    // Alterar o ícone
-    if (type === "password") {
-      togglePassword.src = "/src/icons/eye.svg";
-    } else {
-      togglePassword.src = "/src/icons/eye-off.svg";
-    }
-  });
-}
-
-// Mostrar o ícone de olho quando o campo de senha tiver valor
-if (passwordField) {
-  if (passwordField.value.length > 0) {
-    togglePassword.style.display = "block";
-  } else {
-    togglePassword.style.display = "none";
-  }
-}

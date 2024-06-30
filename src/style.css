@@ -245,3 +245,10 @@ input[readonly] {
 .toggle-input:checked ~ .toggle-switch .toggle-switch-figureAlt {
   transform: scale(1);
 }
+
+/* Desativar botão de revelar senha no Edge e Chrome */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-reveal-button {
+  display: none;
+}
