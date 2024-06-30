@@ -9,18 +9,16 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
     <link rel="stylesheet" href="/src/style.css" />
     <style>
       .field-icon {
         position: absolute;
         right: 10px;
-        top: 50%;
+        top: 70%;
         transform: translateY(-50%);
         cursor: pointer;
+        width: 24px;
+        height: 24px;
       }
       .position-relative {
         position: relative;
@@ -78,13 +76,16 @@
             required
             autocomplete="off"
           />
-          <span class="fa fa-fw fa-eye field-icon toggle-password"></span>
+          <img
+            src="/src/icons/eye.svg"
+            class="field-icon"
+            id="togglePasswordIcon"
+          />
         </div>
         <button type="submit" class="btn btn-primary">Entrar</button>
       </form>
     </div>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1317.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script src="/src/login_vendedor.js"></script>
   </body>
 </html>
