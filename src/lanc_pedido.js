@@ -405,5 +405,8 @@ function mostrarAlertaSucesso(mensagem) {
   if (alertElement) {
     alertElement.textContent = mensagem;
     alertElement.classList.remove("d-none");
+    setTimeout(() => {
+      alertElement.classList.add("d-none");
+    }, 3000); // Ocultar o alerta após 3 segundos
   }
 }
