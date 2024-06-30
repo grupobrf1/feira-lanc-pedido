@@ -118,7 +118,9 @@
             required
             autocomplete="off"
           />
-          <div class="invalid-feedback">Preencha o campo Valor do Pedido.</div>
+          <div class="invalid-feedback" id="valorpedError">
+            O valor do pedido não pode ser menor que 1.000,00.
+          </div>
         </div>
         <div class="form-group">
           <label for="qtmoedas">Quantidade de Moedas:</label>

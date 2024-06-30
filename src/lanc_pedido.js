@@ -151,6 +151,7 @@ document.getElementById("cnpj").addEventListener("blur", function () {
 document.getElementById("valorped").addEventListener("input", function () {
   this.value = formatarMoeda(this.value);
   validarQtMoedas(); // Revalidar qtmoedas ao alterar valorped
+  validarValorPedido(); // Validar valor do pedido ao alterar
 });
 
 document.getElementById("qtmoedas").addEventListener("input", function () {
@@ -190,6 +191,37 @@ function validarQtMoedas() {
   }
 }
 
+function validarValorPedido() {
+  const valorpedInput = document.getElementById("valorped");
+  const valorpedError = document.getElementById("valorpedError");
+  const submitButton = document.querySelector('button[type="submit"]');
+
+  const valorped = parseFloat(
+    removerFormatacaoMoeda(valorpedInput.value).replace(",", ".")
+  );
+
+  if (!isNaN(valorped)) {
+    const minValorPedido = 1000.0;
+
+    if (valorped < minValorPedido) {
+      valorpedInput.classList.add("is-invalid");
+      valorpedError.classList.remove("d-none");
+      valorpedError.textContent = `O valor do pedido não pode ser menor que 1.000,00. Valor mínimo permitido: 1.000,00`;
+      valorpedInput.classList.add("shake");
+      setTimeout(() => {
+        valorpedInput.classList.remove("shake");
+      }, 500);
+      submitButton.disabled = true;
+    } else {
+      valorpedInput.classList.remove("is-invalid");
+      valorpedError.classList.add("d-none");
+      submitButton.disabled = false;
+    }
+  } else {
+    submitButton.disabled = false;
+  }
+}
+
 document
   .getElementById("meuFormulario")
   .addEventListener("submit", function (event) {
@@ -207,6 +239,7 @@ document
     );
     const qtmoedas = parseFloat(qtmoedasInput.value);
     const maxMoedas = Math.floor(valorped * 0.15);
+    const minValorPedido = 1000.0;
 
     if (qtmoedas > maxMoedas) {
       qtmoedasInput.classList.add("is-invalid");
@@ -217,6 +250,19 @@ document
       qtmoedasInput.classList.add("shake");
       setTimeout(() => {
         qtmoedasInput.classList.remove("shake");
+      }, 500);
+      return;
+    }
+
+    if (valorped < minValorPedido) {
+      valorpedInput.classList.add("is-invalid");
+      document.getElementById("valorpedError").classList.remove("d-none");
+      document.getElementById(
+        "valorpedError"
+      ).textContent = `O valor do pedido não pode ser menor que 1.000,00. Valor mínimo permitido: 1.000,00`;
+      valorpedInput.classList.add("shake");
+      setTimeout(() => {
+        valorpedInput.classList.remove("shake");
       }, 500);
       return;
     }
