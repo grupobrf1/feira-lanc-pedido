@@ -90,17 +90,8 @@ if (togglePassword) {
   });
 }
 
-// Mostrar o ícone de olho quando o usuário começar a digitar a senha
+// Mostrar o ícone de olho quando o campo de senha tiver valor
 if (passwordField) {
-  passwordField.addEventListener("input", () => {
-    if (passwordField.value.length > 0) {
-      togglePassword.style.display = "block";
-    } else {
-      togglePassword.style.display = "none";
-    }
-  });
-
-  // Garantir que o ícone esteja visível ao carregar a página, se houver valor no campo de senha
   if (passwordField.value.length > 0) {
     togglePassword.style.display = "block";
   } else {
