@@ -19,26 +19,16 @@ form.addEventListener("submit", async (event) => {
 
   // Resetar alertas e classes de erro
   loginErrorAlert.classList.add("d-none");
-  if (usernameField) usernameField.classList.remove("is-invalid");
-  if (passwordField) passwordField.classList.remove("is-invalid");
+  usernameField.classList.remove("is-invalid");
+  passwordField.classList.remove("is-invalid");
 
-  const username = usernameField ? usernameField.value : "";
-  const password = passwordField ? passwordField.value : "";
+  const username = usernameField.value;
+  const password = passwordField.value;
 
-  let isValid = true;
-
-  if (!username) {
-    isValid = false;
-  }
-
-  if (!password) {
-    isValid = false;
-  }
-
-  if (!isValid) {
+  if (!username || !password) {
     loginErrorAlert.classList.remove("d-none");
-    if (usernameField) usernameField.classList.add("is-invalid");
-    if (passwordField) passwordField.classList.add("is-invalid");
+    if (!username) usernameField.classList.add("is-invalid");
+    if (!password) passwordField.classList.add("is-invalid");
     return;
   }
 
@@ -63,47 +53,30 @@ form.addEventListener("submit", async (event) => {
 
       window.location.href = "/lanc_pedido";
     } else {
-      throw new Error("Autenticação falhou. Verifique suas credenciais.");
+      throw new Error(
+        "Usuário ou senha inválidos. Por favor, tente novamente."
+      );
     }
   } catch (err) {
     // Mostrar o alerta de erro de login
+    loginErrorAlert.textContent =
+      "Usuário ou senha inválidos. Por favor, tente novamente.";
     loginErrorAlert.classList.remove("d-none");
-    if (usernameField) usernameField.classList.add("is-invalid");
-    if (passwordField) passwordField.classList.add("is-invalid");
+    usernameField.classList.add("is-invalid");
+    passwordField.classList.add("is-invalid");
   }
 });
 
 // Alternar visibilidade da senha
-if (togglePassword) {
-  togglePassword.addEventListener("click", function () {
-    const input = passwordField;
-    const type =
-      input.getAttribute("type") === "password" ? "text" : "password";
-    input.setAttribute("type", type);
+togglePassword.addEventListener("click", function () {
+  const type =
+    passwordField.getAttribute("type") === "password" ? "text" : "password";
+  passwordField.setAttribute("type", type);
+  togglePassword.src =
+    type === "password" ? "/src/icons/eye.svg" : "/src/icons/eye-off.svg";
+});
 
-    // Alterar o ícone
-    if (type === "password") {
-      togglePassword.src = "/src/icons/eye.svg";
-    } else {
-      togglePassword.src = "/src/icons/eye-off.svg";
-    }
-  });
-}
-
-// Mostrar o ícone de olho quando o usuário começar a digitar a senha
-if (passwordField) {
-  passwordField.addEventListener("input", () => {
-    if (passwordField.value.length > 0) {
-      togglePassword.style.display = "block";
-    } else {
-      togglePassword.style.display = "none";
-    }
-  });
-
-  // Garantir que o ícone esteja visível ao carregar a página, se houver valor no campo de senha
-  if (passwordField.value.length > 0) {
-    togglePassword.style.display = "block";
-  } else {
-    togglePassword.style.display = "none";
-  }
-}
+passwordField.addEventListener("input", () => {
+  togglePassword.style.display =
+    passwordField.value.length > 0 ? "block" : "none";
+});
