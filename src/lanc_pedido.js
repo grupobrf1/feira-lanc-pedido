@@ -272,6 +272,12 @@ document
     document.getElementById("confirmaFilial").textContent =
       formData.get("filial");
 
+    // Ajuste para exibir os dados corretamente no modo escuro
+    const isDarkMode = document.body.classList.contains("dark-mode");
+    document.querySelectorAll("#confirmacaoModal span").forEach((span) => {
+      span.style.color = isDarkMode ? "white" : "black";
+    });
+
     const confirmacaoModal = new bootstrap.Modal(
       document.getElementById("confirmacaoModal")
     );
@@ -286,6 +292,12 @@ document
         dadosFormulario[key] = value;
       }
 
+      // Log dos dados enviados para a API
+      console.log(
+        "Dados enviados para a API:",
+        JSON.stringify(dadosFormulario)
+      );
+
       fetch("https://api-feira.azurewebsites.net/lancarpedido", {
         method: "POST",
         headers: {
@@ -296,7 +308,9 @@ document
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Erro na resposta da API");
+            return response.json().then((data) => {
+              throw new Error(data.detail || "Erro na resposta da API");
+            });
           }
           return response.json();
         })
@@ -314,16 +328,10 @@ document
           isSubmitting = false;
         })
         .catch((error) => {
-          console.error("Erro ao enviar dados:", error);
+          console.error("Erro ao enviar dados:", error.message);
           mostrarAlertaErro(
             "Erro ao enviar dados. Por favor, tente novamente."
           );
-
-          // Mostrar o modal de erro
-          const errorModal = new bootstrap.Modal(
-            document.getElementById("pedidoErrorModal")
-          );
-          errorModal.show();
 
           isSubmitting = false;
         });

@@ -19,6 +19,13 @@
         display: flex;
         justify-content: space-between;
       }
+      .dark-mode .modal-content {
+        background-color: #333;
+        color: #fff;
+      }
+      .dark-mode .modal-content span {
+        color: #fff;
+      }
     </style>
     <script>
       // Verificar se o token está presente e redirecionar para a página de login se não estiver
@@ -192,14 +199,14 @@
               data-bs-dismiss="modal"
               id="cancelarPedidoBtn"
             >
-              <i class="fas fa-times"></i>
+              <i class="fas fa-times"></i> Cancelar
             </button>
             <button
               type="button"
               class="btn btn-success btn-confirm"
               id="confirmarPedidoBtn"
             >
-              <i class="fas fa-check"></i>
+              <i class="fas fa-check"></i> Confirmar
             </button>
           </div>
         </div>
@@ -214,11 +221,20 @@
       if (darkMode) {
         document.body.classList.add("dark-mode");
         toggleInput.checked = true;
+        // Ajuste para garantir que o modal exiba o texto corretamente no modo escuro
+        document.querySelectorAll("#confirmacaoModal span").forEach((span) => {
+          span.style.color = "white"; // ou qualquer outra cor que contraste com o fundo escuro
+        });
       }
 
       toggleInput.addEventListener("change", () => {
         document.body.classList.toggle("dark-mode");
         localStorage.setItem("darkMode", toggleInput.checked);
+        // Ajuste para garantir que o modal exiba o texto corretamente ao alternar entre modos
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        document.querySelectorAll("#confirmacaoModal span").forEach((span) => {
+          span.style.color = isDarkMode ? "white" : "black"; // ou qualquer outra cor que contraste com o fundo
+        });
       });
     </script>
   </body>
