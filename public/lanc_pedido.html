@@ -9,10 +9,6 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
     <link rel="stylesheet" href="/src/style.css" />
     <style>
       .btn-confirm,
@@ -26,13 +22,22 @@
     </style>
     <script>
       // Verificar se o token está presente e redirecionar para a página de login se não estiver
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
+      if (!localStorage.getItem("accessToken")) {
         window.location.href = "/login_vendedor";
       }
     </script>
   </head>
   <body>
+    <div class="wrapper">
+      <div class="toggle">
+        <input class="toggle-input" type="checkbox" />
+        <div class="toggle-bg"></div>
+        <div class="toggle-switch">
+          <div class="toggle-switch-figure"></div>
+          <div class="toggle-switch-figureAlt"></div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div class="d-flex justify-content-between align-items-center mt-3">
         <h2 id="tituloBemVindo">Bem-vindo</h2>
@@ -202,7 +207,19 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-    <script type="module" src="/src/lanc_pedido.js"></script>
+    <script src="/src/lanc_pedido.js"></script>
+    <script>
+      const toggleInput = document.querySelector(".toggle-input");
+      const darkMode = localStorage.getItem("darkMode") === "true";
+      if (darkMode) {
+        document.body.classList.add("dark-mode");
+        toggleInput.checked = true;
+      }
+
+      toggleInput.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem("darkMode", toggleInput.checked);
+      });
+    </script>
   </body>
 </html>

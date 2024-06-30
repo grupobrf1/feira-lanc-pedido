@@ -45,6 +45,16 @@
     </style>
   </head>
   <body>
+    <div class="wrapper">
+      <div class="toggle">
+        <input class="toggle-input" type="checkbox" />
+        <div class="toggle-bg"></div>
+        <div class="toggle-switch">
+          <div class="toggle-switch-figure"></div>
+          <div class="toggle-switch-figureAlt"></div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <form id="loginForm" class="mt-5" autocomplete="off">
         <h2>Entrar</h2>
@@ -87,5 +97,18 @@
     </div>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1317.0.min.js"></script>
     <script src="/src/login_vendedor.js"></script>
+    <script>
+      const toggleInput = document.querySelector(".toggle-input");
+      const darkMode = localStorage.getItem("darkMode") === "true";
+      if (darkMode) {
+        document.body.classList.add("dark-mode");
+        toggleInput.checked = true;
+      }
+
+      toggleInput.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem("darkMode", toggleInput.checked);
+      });
+    </script>
   </body>
 </html>
