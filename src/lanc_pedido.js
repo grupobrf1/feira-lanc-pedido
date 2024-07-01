@@ -1,4 +1,5 @@
 let isSubmitting = false; // Variável para evitar reenvios múltiplos
+let cnpjTimer; // Temporizador para o CNPJ
 
 // Função para adicionar máscara de CNPJ
 function mascaraCNPJ(value) {
@@ -89,6 +90,53 @@ document.getElementById("cnpj").addEventListener("input", function () {
   this.value = mascaraCNPJ(this.value);
   const cnpjSemMascara = removerMascaraCNPJ(this.value);
 
+  clearTimeout(cnpjTimer); // Limpar o temporizador anterior
+  if (cnpjSemMascara.length === 14) {
+    cnpjTimer = setTimeout(() => {
+      mostrarCarregamento();
+      fetch(
+        `https://api-feira.azurewebsites.net/consultarclienteporcnpj?cnpj=${cnpjSemMascara}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Não autorizado");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          ocultarCarregamento();
+          if (Array.isArray(data) && data.length > 0) {
+            const resultado = data[0];
+            document.getElementById("cliente").value = resultado.cliente || "";
+            document.getElementById("cidade").value = resultado.cidade || "";
+            document.getElementById("uf").value = resultado.uf || "";
+            const cnpjErrorAlert = document.getElementById("cnpjErrorAlert");
+            if (cnpjErrorAlert) {
+              cnpjErrorAlert.classList.add("d-none");
+            }
+          } else {
+            mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
+          }
+          // Habilitar os campos preenchidos
+          document.getElementById("cliente").readOnly = true;
+          document.getElementById("cidade").readOnly = true;
+          document.getElementById("uf").readOnly = true;
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar dados:", error);
+          mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
+          ocultarCarregamento();
+        });
+    }, 500); // Atraso de 500ms após o término da digitação
+  } else {
+    ocultarCarregamento();
+  }
+
   if (cnpjSemMascara.length !== 14) {
     // Limpar os campos se o CNPJ não tiver 14 dígitos
     document.getElementById("cliente").value = "";
@@ -97,54 +145,6 @@ document.getElementById("cnpj").addEventListener("input", function () {
     document.getElementById("cliente").readOnly = true;
     document.getElementById("cidade").readOnly = true;
     document.getElementById("uf").readOnly = true;
-  }
-});
-
-document.getElementById("cnpj").addEventListener("blur", function () {
-  const cnpjSemMascara = removerMascaraCNPJ(this.value);
-
-  if (cnpjSemMascara.length === 14) {
-    mostrarCarregamento();
-    fetch(
-      `https://api-feira.azurewebsites.net/consultarclienteporcnpj?cnpj=${cnpjSemMascara}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Não autorizado");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        ocultarCarregamento();
-        if (Array.isArray(data) && data.length > 0) {
-          const resultado = data[0];
-          document.getElementById("cliente").value = resultado.cliente || "";
-          document.getElementById("cidade").value = resultado.cidade || "";
-          document.getElementById("uf").value = resultado.uf || "";
-          const cnpjErrorAlert = document.getElementById("cnpjErrorAlert");
-          if (cnpjErrorAlert) {
-            cnpjErrorAlert.classList.add("d-none");
-          }
-        } else {
-          mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
-        }
-        // Habilitar os campos preenchidos
-        document.getElementById("cliente").readOnly = true;
-        document.getElementById("cidade").readOnly = true;
-        document.getElementById("uf").readOnly = true;
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar dados:", error);
-        mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
-        ocultarCarregamento();
-      });
-  } else {
-    ocultarCarregamento();
   }
 });
 
