@@ -138,26 +138,27 @@
         </div>
         <div class="form-group">
           <label for="fornecedor">Fornecedor:</label>
-          <input
-            type="text"
+          <select
             class="form-control"
             id="fornecedor"
             name="fornecedor"
             required
-            autocomplete="off"
-          />
+          >
+            <option value="" selected disabled>Selecione um fornecedor</option>
+            <option value="GEOLAB">GEOLAB</option>
+            <option value="HYPERA">HYPERA</option>
+            <option value="IFBRASIL">IFBRASIL</option>
+          </select>
           <div class="invalid-feedback">Preencha o campo Fornecedor.</div>
         </div>
         <div class="form-group">
           <label for="filial">Filial:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="filial"
-            name="filial"
-            required
-            autocomplete="off"
-          />
+          <select class="form-control" id="filial" name="filial" required>
+            <option value="" selected disabled>Selecione uma filial</option>
+            <option value="BRASIL">BRASIL</option>
+            <option value="FARMAUM PB">FARMAUM PB</option>
+            <option value="FARMAUM RN">FARMAUM RN</option>
+          </select>
           <div class="invalid-feedback">Preencha o campo Filial.</div>
         </div>
         <button type="submit" class="btn btn-primary">Enviar</button>
