@@ -1,0 +1,180 @@
+/* dark-mode-toggle.css */
+
+/* Wrapper para o botão de alternância do modo escuro */
+.wrapper {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+/* Estilo para o botão de alternância */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 60px; /* Ajustar largura */
+  height: 30px; /* Ajustar altura */
+  padding: 2px; /* Ajustar padding */
+  border-radius: 30px;
+}
+
+.toggle:before,
+.toggle:after {
+  content: "";
+  display: table;
+}
+
+.toggle:after {
+  clear: both;
+}
+
+/* Estilo para o fundo do botão de alternância */
+.toggle-bg {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 100%;
+  height: 100%;
+  background-color: #c0e6f6;
+  border-radius: 30px;
+  border: 2px solid #81c0d5;
+  transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Estilo para o input do botão de alternância */
+.toggle-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  z-index: 2;
+  opacity: 0;
+}
+
+/* Estilo para o interruptor do botão de alternância */
+.toggle-switch {
+  position: relative;
+  width: 24px; /* Ajustar largura */
+  height: 24px; /* Ajustar altura */
+  margin-left: 30px;
+  background-color: #f5eb42;
+  border: 2px solid #e4c74d;
+  border-radius: 50%;
+  transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Estilo para a figura do interruptor */
+.toggle-switch-figure {
+  position: absolute;
+  bottom: -10px;
+  left: -30px;
+  display: block;
+  width: 40px; /* Ajustar largura */
+  height: 15px; /* Ajustar altura */
+  border: 4px solid #d4d4d2;
+  border-radius: 20px;
+  background-color: #fff;
+  transform: scale(0.4);
+  transition: all 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.toggle-switch-figure:after {
+  content: "";
+  display: block;
+  position: relative;
+  top: -40px;
+  right: -25px;
+  width: 10px; /* Ajustar largura */
+  height: 10px; /* Ajustar altura */
+  border: 4px solid #d4d4d2;
+  border-radius: 100%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotateZ(70deg);
+  background-color: #fff;
+}
+
+.toggle-switch-figure:before {
+  content: "";
+  display: block;
+  position: relative;
+  top: -15px;
+  right: -5px;
+  width: 20px; /* Ajustar largura */
+  height: 20px; /* Ajustar altura */
+  border: 4px solid #d4d4d2;
+  border-radius: 100%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotateZ(30deg);
+  background-color: #fff;
+}
+
+/* Estilo para a figura alternativa do interruptor */
+.toggle-switch-figureAlt {
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  width: 1px; /* Ajustar largura */
+  height: 1px; /* Ajustar altura */
+  background-color: #efeeda;
+  border-radius: 100%;
+  border: 2px solid #dee1c5;
+  box-shadow: 21px -3px 0 -1.5px #fcfcfc, 37.5px -5px 0 -1.5px #fcfcfc,
+    27px 2px 0 -2px #fcfcfc, 41.5px 3.5px 0 -1px #fcfcfc,
+    31.5px 9px 0 -2px #fcfcfc, 22px 14px 0 -1px #fcfcfc,
+    39px 11.5px 0 -1.5px #fcfcfc;
+  transition: all 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: scale(0);
+}
+
+.toggle-switch-figureAlt:before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 9px;
+  width: 3.5px;
+  height: 3.5px;
+  background-color: #efeeda;
+  border-radius: 100%;
+  border: 2px solid #dee1c5;
+}
+
+.toggle-switch-figureAlt:after {
+  content: "";
+  position: absolute;
+  top: 9.5px;
+  left: 7.5px;
+  width: 1px;
+  height: 1px;
+  background-color: #efeeda;
+  border-radius: 100%;
+  border: 2px solid #dee1c5;
+}
+
+/* Estilo para o botão de alternância quando selecionado */
+.toggle-input:checked ~ .toggle-switch {
+  margin-left: 0;
+  border-color: #dee1c5;
+  background-color: #fffdf2;
+}
+
+/* Estilo para o fundo do botão de alternância quando selecionado */
+.toggle-input:checked ~ .toggle-bg {
+  background-color: #484848;
+  border-color: #202020;
+}
+
+/* Estilo para a figura do interruptor quando selecionado */
+.toggle-input:checked ~ .toggle-switch .toggle-switch-figure {
+  margin-left: 20px;
+  opacity: 0;
+  transform: scale(0.1);
+}
+
+/* Estilo para a figura alternativa do interruptor quando selecionado */
+.toggle-input:checked ~ .toggle-switch .toggle-switch-figureAlt {
+  transform: scale(1);
+}
