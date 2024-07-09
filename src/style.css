@@ -1,7 +1,11 @@
-/* Estilo para o corpo do documento */
-body {
-  background-color: #f8f9fa;
-  font-family: Arial, sans-serif;
+/* dark-mode-toggle.css */
+
+/* Wrapper para o botão de alternância do modo escuro */
+.wrapper {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
 }
 
 /* Estilo para o modo escuro */
