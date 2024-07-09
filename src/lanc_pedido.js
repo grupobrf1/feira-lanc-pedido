@@ -68,7 +68,7 @@ function ocultarCarregamento() {
 // Verificar se o token está presente e redirecionar para a página de login se não estiver
 const accessToken = localStorage.getItem("accessToken");
 if (!accessToken) {
-  window.location.href = "/login_vendedor";
+  window.location.href = "/login";
 }
 
 // Recuperar o nome do usuário e atualizar o título
@@ -83,7 +83,7 @@ if (userName) {
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("userName");
-  window.location.href = "/login_vendedor";
+  window.location.href = "/login";
 });
 
 document.getElementById("cnpj").addEventListener("input", function () {
