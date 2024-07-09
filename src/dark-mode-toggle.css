@@ -2,7 +2,7 @@
 
 /* Wrapper para o botão de alternância do modo escuro */
 .wrapper {
-  position: fixed;
+  position: absolute; /* ou relative, dependendo do contêiner pai */
   top: 10px;
   right: 10px;
   z-index: 1000;

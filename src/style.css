@@ -22,6 +22,7 @@ body.dark-mode {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Adicionando posição relativa */
 }
 
 /* Estilo para o contêiner principal no modo escuro */
