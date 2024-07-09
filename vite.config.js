@@ -17,7 +17,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        login: resolve(__dirname, "public/login.html"),
+        login: resolve(__dirname, "public/index.html"),
         lanc_pedido: resolve(__dirname, "public/lanc_pedido.html"),
       },
     },
@@ -36,7 +36,7 @@ export default defineConfig({
             req.url = "/lanc_pedido.html";
           }
           if (req.url === "/login") {
-            req.url = "/login.html";
+            req.url = "/index.html";
           }
           next();
         });
