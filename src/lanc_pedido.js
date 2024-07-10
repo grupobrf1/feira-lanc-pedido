@@ -68,7 +68,7 @@ function ocultarCarregamento() {
 // Verificar se o token está presente e redirecionar para a página de login se não estiver
 const accessToken = localStorage.getItem("accessToken");
 if (!accessToken) {
-  window.location.href = "/login";
+  window.location.href = "./index.html";
 }
 
 // Recuperar o nome do usuário e atualizar o título
@@ -83,7 +83,7 @@ if (userName) {
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("userName");
-  window.location.href = "/login";
+  window.location.href = "./index.html";
 });
 
 document.getElementById("cnpj").addEventListener("input", function () {
@@ -95,7 +95,7 @@ document.getElementById("cnpj").addEventListener("input", function () {
     cnpjTimer = setTimeout(() => {
       mostrarCarregamento();
       fetch(
-        `https://api-feira.azurewebsites.net/consultarclienteporcnpj?cnpj=${cnpjSemMascara}`,
+        `https://sga.grupobrf1.com:10000/consultarclienteporcnpj?cnpj=${cnpjSemMascara}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -344,7 +344,7 @@ document
         JSON.stringify(dadosFormulario)
       );
 
-      fetch("https://api-feira.azurewebsites.net/lancarpedido", {
+      fetch("https://sga.grupobrf1.com:10000/lancarpedido", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -51,7 +51,7 @@ form.addEventListener("submit", async (event) => {
       localStorage.setItem("accessToken", accessToken); // Armazenar no localStorage
       localStorage.setItem("userName", username); // Armazenar nome do usuário no localStorage
 
-      window.location.href = "/lanc_pedido";
+      window.location.href = "./lanc_pedido.html";
     } else {
       throw new Error(
         "Usuário ou senha inválidos. Por favor, tente novamente."
