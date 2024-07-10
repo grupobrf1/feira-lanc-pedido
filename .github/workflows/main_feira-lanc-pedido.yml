@@ -61,5 +61,5 @@ jobs:
         with:
           app-name: 'feira-lanc-pedido'
           slot-name: 'Production'
-          package: .
+          package: 'dist'
           
