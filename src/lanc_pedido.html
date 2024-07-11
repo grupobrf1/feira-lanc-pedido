@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Experiência BRF1 - Fornecedor</title>
-    <link rel="icon" type="image/x-icon" href="./icons/brf1.ico" />
+    <link rel="icon" type="image/x-icon" href="../public/brf1.ico" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
@@ -47,9 +47,9 @@
       </div>
     </div>
     <div class="container">
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <h2 id="tituloBemVindo">Bem-vindo</h2>
-        <button id="logoutBtn" class="btn btn-danger">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 id="tituloBemVindo" class="mb-0">Bem-vindo</h2>
+        <button id="logoutBtn" class="btn btn-danger mt-0">
           <i class="fas fa-sign-out-alt"></i> Sair
         </button>
       </div>
@@ -124,7 +124,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="qtmoedas">Quantidade de Moedas:</label>
+          <label for="qtmoedas">Quantidade de BR Coins:</label>
           <input
             type="number"
             class="form-control"
@@ -146,18 +146,38 @@
             required
           >
             <option value="" selected disabled>Selecione um fornecedor</option>
+            <option value="BELFAR">BELFAR</option>
+            <option value="BOTICARIO">BOTICÁRIO</option>
+            <option value="EMS">EMS</option>
+            <option value="ESSITY">ESSITY</option>
+            <option value="EUROFARMA">EUROFARMA</option>
+            <option value="EVERGREEN">EVERGREEN</option>
             <option value="GEOLAB">GEOLAB</option>
-            <option value="HYPERA">HYPERA</option>
+            <option value="GERMED">GERMED</option>
+            <option value="GIOVANNA BABY">GIOVANNA BABY</option>
+            <option value="GLOBO">GLOBO</option>
+            <option value="GTECH">G-TECH</option>
+            <option value="HERTZ">HERTZ</option>
             <option value="IFBRASIL">IFBRASIL</option>
+            <option value="KIMBERLY">KIMBERLY</option>
+            <option value="LOLLY">LOLLY</option>
+            <option value="MEDQUIMICA">MEDQUÍMICA</option>
+            <option value="MULTILAB">MULTILAB</option>
+            <option value="NATULAB">NATULAB</option>
+            <option value="NEO QUIMICA">NEO QUÍMICA</option>
+            <option value="QUARIS">QUARIS</option>
+            <option value="SOFTYS">SOFTYS</option>
+            <option value="TEUTO">TEUTO</option>
+            <option value="VITAMEDIC">VITAMEDIC</option>
           </select>
           <div class="invalid-feedback">Preencha o campo Fornecedor.</div>
         </div>
         <div class="form-group">
-          <label for="filial">Filial:</label>
+          <label for="filial">Distribuidora:</label>
           <select class="form-control" id="filial" name="filial" required>
-            <option value="" selected disabled>Selecione uma filial</option>
-            <option value="BRASIL">BRASIL</option>
+            <option value="" selected disabled>Selecione uma distribuidora</option>
             <option value="FARMAUM PB">FARMAUM PB</option>
+            <option value="BRASIL">BRASIL</option>
             <option value="FARMAUM RN">FARMAUM RN</option>
           </select>
           <div class="invalid-feedback">Preencha o campo Filial.</div>

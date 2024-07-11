@@ -202,11 +202,12 @@ function validarValorPedido() {
 
   if (!isNaN(valorped)) {
     const minValorPedido = 1000.0;
+    const maxValorPedido = 2000000.0;
 
-    if (valorped < minValorPedido) {
+    if (valorped < minValorPedido || valorped > maxValorPedido) {
       valorpedInput.classList.add("is-invalid");
       valorpedError.classList.remove("d-none");
-      valorpedError.textContent = `O valor do pedido não pode ser menor que 1.000,00. Valor mínimo permitido: 1.000,00`;
+      valorpedError.textContent = `O valor do pedido não pode ser menor que 1.000,00 ou maior que 2.000.000,00.`;
       valorpedInput.classList.add("shake");
       setTimeout(() => {
         valorpedInput.classList.remove("shake");
