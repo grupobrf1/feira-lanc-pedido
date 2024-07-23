@@ -11,7 +11,7 @@ export default defineConfig({
     open: "/login", // Abre automaticamente a página de login
     proxy: {
       "/api": {
-        target: "https://sga.grupobrf1.com:10000",
+        target: "https://feira-api.grupobrf1.com",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
