@@ -95,7 +95,7 @@ document.getElementById("cnpj").addEventListener("input", function () {
     cnpjTimer = setTimeout(() => {
       mostrarCarregamento();
       fetch(
-        `https://feira-api.grupobrf1.com/consultarclienteporcnpj?cnpj=${cnpjSemMascara}`,
+        `https://api.grupobrf1.com:10000/consultarclienteporcnpj?cnpj=${cnpjSemMascara}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -345,7 +345,7 @@ document
         JSON.stringify(dadosFormulario)
       );
 
-      fetch("https://feira-api.grupobrf1.com/lancarpedido", {
+      fetch("https://api.grupobrf1.com:10000/lancarpedido", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
