@@ -170,12 +170,12 @@ function validarQtMoedas() {
   const qtmoedas = parseFloat(qtmoedasInput.value);
 
   if (!isNaN(valorped) && !isNaN(qtmoedas)) {
-    const maxMoedas = Math.floor(valorped * 0.15);
+    const maxMoedas = Math.floor(valorped * 0.30);
 
     if (qtmoedas > maxMoedas) {
       qtmoedasInput.classList.add("is-invalid");
       qtmoedasError.classList.remove("d-none");
-      qtmoedasError.textContent = `Quantidade de moedas não pode ser maior que 15% do valor do pedido. Máximo permitido: ${maxMoedas}`;
+      qtmoedasError.textContent = `Quantidade de moedas não pode ser maior que 30% do valor do pedido. Máximo permitido: ${maxMoedas}`;
       qtmoedasInput.classList.add("shake");
       setTimeout(() => {
         qtmoedasInput.classList.remove("shake");
