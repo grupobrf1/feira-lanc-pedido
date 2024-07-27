@@ -131,6 +131,8 @@
             id="qtmoedas"
             name="qtmoedas"
             autocomplete="off"
+            min="0"
+            value="0"
           />
           <div class="invalid-feedback" id="qtmoedasError">
             Quantidade de moedas não pode ser maior que 30% do valor do pedido.
@@ -178,7 +180,9 @@
         <div class="form-group">
           <label for="filial">Distribuidora:</label>
           <select class="form-control" id="filial" name="filial" required>
-            <option value="" selected disabled>Selecione uma distribuidora</option>
+            <option value="" selected disabled>
+              Selecione uma distribuidora
+            </option>
             <option value="FARMAUM PB">FARMAUM PB</option>
             <option value="BRASIL">BRASIL</option>
             <option value="FARMAUM RN">FARMAUM RN</option>
