@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import { viteSingleFile } from 'vite-plugin-singlefile';
 
 export default defineConfig({
   root: "src",
@@ -28,7 +27,8 @@ export default defineConfig({
         lanc_pedido_js: resolve(__dirname, "src/lanc_pedido.js"),
         login_js: resolve(__dirname, "src/login.js"),
         style: resolve(__dirname, "src/style.css"),
-        iconbrf1: resolve(__dirname, "public/brf1.ico"),
+        iconbrf1: resolve(__dirname, "src/icons/brf1.png"),
+        logo: resolve(__dirname, "src/icons/logo.svg"),
         eyeico: resolve(__dirname, "src/icons/eye-off.svg"),
         eye: resolve(__dirname, "src/icons/eye.svg")
       },
