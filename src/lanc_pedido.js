@@ -134,10 +134,6 @@ document.getElementById("cnpj").addEventListener("input", function () {
         });
     }, 500); // Atraso de 500ms após o término da digitação
   } else {
-    ocultarCarregamento();
-  }
-
-  if (cnpjSemMascara.length !== 14) {
     // Limpar os campos se o CNPJ não tiver 14 dígitos
     document.getElementById("cliente").value = "";
     document.getElementById("cidade").value = "";
@@ -145,6 +141,7 @@ document.getElementById("cnpj").addEventListener("input", function () {
     document.getElementById("cliente").readOnly = true;
     document.getElementById("cidade").readOnly = true;
     document.getElementById("uf").readOnly = true;
+    ocultarCarregamento();
   }
 });
 
@@ -170,7 +167,7 @@ function validarQtMoedas() {
   const qtmoedas = parseFloat(qtmoedasInput.value);
 
   if (!isNaN(valorped) && !isNaN(qtmoedas)) {
-    const maxMoedas = Math.floor(valorped * 0.30);
+    const maxMoedas = Math.floor(valorped * 0.3);
 
     if (qtmoedas > maxMoedas) {
       qtmoedasInput.classList.add("is-invalid");
