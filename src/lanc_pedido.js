@@ -110,7 +110,15 @@ document.getElementById("cnpj").addEventListener("input", function () {
         })
         .then((data) => {
           ocultarCarregamento();
-          if (Array.isArray(data) && data.length > 0) {
+          // Verifique novamente o comprimento do CNPJ após a resposta da API
+          const cnpjInput = document.getElementById("cnpj");
+          const cnpjSemMascaraAtual = removerMascaraCNPJ(cnpjInput.value);
+
+          if (
+            cnpjSemMascaraAtual.length === 14 &&
+            Array.isArray(data) &&
+            data.length > 0
+          ) {
             const resultado = data[0];
             document.getElementById("cliente").value = resultado.cliente || "";
             document.getElementById("cidade").value = resultado.cidade || "";
@@ -119,14 +127,24 @@ document.getElementById("cnpj").addEventListener("input", function () {
             if (cnpjErrorAlert) {
               cnpjErrorAlert.classList.add("d-none");
             }
+            // Habilitar os campos preenchidos
+            document.getElementById("cliente").readOnly = true;
+            document.getElementById("cidade").readOnly = true;
+            document.getElementById("uf").readOnly = true;
           } else {
-            mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
+            // Limpar os campos se o CNPJ não tiver 14 dígitos
+            document.getElementById("cliente").value = "";
+            document.getElementById("cidade").value = "";
+            document.getElementById("uf").value = "";
+            document.getElementById("cliente").readOnly = true;
+            document.getElementById("cidade").readOnly = true;
+            document.getElementById("uf").readOnly = true;
+            mostrarAlertaErro(
+              "CNPJ não encontrado ou inválido. Tente novamente."
+            );
           }
-          // Habilitar os campos preenchidos
-          document.getElementById("cliente").readOnly = true;
-          document.getElementById("cidade").readOnly = true;
-          document.getElementById("uf").readOnly = true;
         })
+
         .catch((error) => {
           console.error("Erro ao buscar dados:", error);
           mostrarAlertaErro("CNPJ não encontrado. Tente novamente.");
@@ -229,6 +247,16 @@ document
       return; // Evitar reenvio se já estiver enviando
     }
 
+    // Verificar se o CNPJ tem exatamente 14 dígitos
+    const cnpjInput = document.getElementById("cnpj");
+    const cnpjSemMascara = removerMascaraCNPJ(cnpjInput.value);
+    if (cnpjSemMascara.length !== 14) {
+      cnpjInput.classList.add("is-invalid");
+      document.querySelector('.invalid-feedback[for="cnpj"]').textContent =
+        "O CNPJ deve ter exatamente 14 dígitos.";
+      return;
+    }
+
     // Verificar se qtmoedas é maior que 15% do valorped antes de permitir o envio
     const valorpedInput = document.getElementById("valorped");
     const qtmoedasInput = document.getElementById("qtmoedas");
@@ -290,10 +318,8 @@ document
     }
 
     // Remove máscara do CNPJ e formatação de valor antes de enviar
-    const cnpjSemMascara = removerMascaraCNPJ(formData.get("cnpj"));
-    const valorSemFormatacao = removerFormatacaoMoeda(formData.get("valorped"));
-
     formData.set("cnpj", cnpjSemMascara);
+    const valorSemFormatacao = removerFormatacaoMoeda(formData.get("valorped"));
     formData.set("valorped", valorSemFormatacao);
 
     // Exibir modal de confirmação com os dados preenchidos
