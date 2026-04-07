@@ -40,7 +40,7 @@ Frontend web em Vite com autenticação, busca de cliente por CNPJ e formulário
 - Bootstrap
 - Amazon Cognito
 
-## Como executar ou acessar
+## Como executar
 
 Build de produção:
 
