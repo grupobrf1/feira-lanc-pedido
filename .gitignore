@@ -36,3 +36,6 @@ Desktop.ini
 
 # macOS
 .DS_Store
+
+# Especificos do projeto
+yarn.lock
