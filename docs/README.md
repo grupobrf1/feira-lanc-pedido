@@ -42,13 +42,7 @@ Frontend web em Vite com autenticação, busca de cliente por CNPJ e formulário
 
 ## Como executar ou acessar
 
-```bash
-cd /Users/lucas/Projetos/feira-lanc-pedido
-npm install
-npm run dev
-```
-
-Build:
+Build de produção:
 
 ```bash
 npm run build
